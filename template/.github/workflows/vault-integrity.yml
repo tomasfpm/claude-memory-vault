@@ -1,0 +1,26 @@
+name: Vault integrity
+
+# Why this exists: the id-must-equal-filename rule fails SILENTLY. A mismatch makes a note
+# unreachable from every [[link]] pointing at it, with no error anywhere - in Obsidian, in
+# git, or in any Claude session reading the vault. Checked by hand, it gets checked only
+# when someone remembers. So the rule becomes infrastructure.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:      # lets you run it manually from the Actions tab
+
+# Least privilege: this job only ever reads the repository.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the vault
+        uses: actions/checkout@v4
+
+      - name: Run integrity check
+        run: bash .github/scripts/check-vault.sh

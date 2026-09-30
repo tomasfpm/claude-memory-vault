@@ -1,0 +1,19 @@
+# Obsidian's per-machine state. The rest of .obsidian/ (themes, graph colours, plugins) is
+# settings and is worth sharing between machines.
+.obsidian/workspace*.json
+.obsidian/cache
+
+# Secrets - never, under any circumstance. This list is a safety net, not a substitute for
+# looking before you commit.
+.env
+*.env
+*_token*
+*_secret*
+*.keystore
+*.pem
+credentials*
+
+# OS noise
+desktop.ini
+.DS_Store
+Thumbs.db

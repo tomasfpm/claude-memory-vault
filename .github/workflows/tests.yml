@@ -1,0 +1,27 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ffmpeg only, so the end-to-end video test runs. It makes a silent test video, so
+      # Whisper and its model download are not needed.
+      - name: Install ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+
+      - name: Vault template and installer
+        run: bash tests/test_vault.sh
+
+      - name: Capture scripts
+        run: python3 -m unittest discover tests -v
